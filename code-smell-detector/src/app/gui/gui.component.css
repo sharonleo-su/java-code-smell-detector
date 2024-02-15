@@ -1,0 +1,31 @@
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.container {
+    text-align: center;
+    margin: 20px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h2 {
+    color: #4CAF50;
+}
+
+input,
+button {
+    margin: 5px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.alert-danger {
+    margin-top: 20px;
+}
