@@ -1,18 +1,17 @@
-// code-analyser.component.ts
 import { Component } from '@angular/core';
 import { CodeAnalyzerService } from '../code-analyzer.service';
 
 @Component({
-  selector: 'app-code-analyser',
-  templateUrl: './code-analyser.component.html',
-  styleUrls: ['./code-analyser.component.css']
+  selector: 'app-code-analyzer',
+  templateUrl: './code-analyzer.component.html',
+  styleUrls: ['./code-analyzer.component.css']
 })
-export class CodeAnalyserComponent {
-  constructor(private codeAnalyserService: CodeAnalyzerService) {}
+export class CodeAnalyzerComponent {
+  constructor(private codeAnalyzerService: CodeAnalyzerService) {}
 
   // Example usage
   analyzeCodeSnippet(code: string): void {
-    const hasCodeSmells = this.codeAnalyserService.detectLongFunctions(code);
+    const hasCodeSmells = this.codeAnalyzerService.detectLongFunctions(code);
 
     if (hasCodeSmells) {
       console.log('Long functions detected!');
