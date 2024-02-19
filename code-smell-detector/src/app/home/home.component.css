@@ -39,3 +39,8 @@ button {
     border-color: #dc3545; /* Adjust the border color of the alert box */
     color: #fff; /* Adjust the font color of the alert box */
 }
+
+.input-group {
+    max-width: 400px;
+    margin-left: 115px;
+}
