@@ -3,11 +3,12 @@
 
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    color: 	#00e1d0; /* Emerald green font color */
+    color: 	#7FFFD4; /* Emerald green font color */
 }
 
 .navbar {
     margin-bottom: 20px; /* Add space between navbar and content */
+    font-size: larger;
 }
 
 .container {
@@ -17,7 +18,7 @@ body {
 }
 
 h2 {
-    color: 	#00e1d0; /* Emerald green color for heading */
+    color: 	#7FFFD4; /* Emerald green color for heading */
 }
 
 input,
@@ -30,7 +31,7 @@ button {
 }
 
 .alert-danger {
-    margin-top: 20px;
+    margin-top: 50px;
     max-width: 400px; /* Set the maximum width for the alert box */
     margin-left: auto; /* Center the alert box horizontally */
     margin-right: auto;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CodeAnalyzerService } from '../code-analyzer.service';
+import { CodeAnalyzerService, LongFunctionReport } from '../code-analyzer.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,10 @@ import { CodeAnalyzerService } from '../code-analyzer.service';
 })
 export class HomeComponent {
   codeSmellDetected = false;
-  selectedFile: File | null = null;  // Variable to store the selected file
+  selectedFile: File | null = null;
+  longFunctionReports: LongFunctionReport[] = [];
 
-  constructor(private codeAnalyzerService: CodeAnalyzerService) {}  // Inject the CodeAnalyzerService
+  constructor(private codeAnalyzerService: CodeAnalyzerService) {}
 
   onFileSelected(event: any): void {
     const files: FileList = event.target.files || event.srcElement.files;
@@ -18,18 +19,28 @@ export class HomeComponent {
   }
 
   analyzeCode(): void {
-    // Implement code analysis logic using this.selectedFile
+    console.log('Button clicked!');
+
     if (this.selectedFile) {
       const fileReader = new FileReader();
+
       fileReader.onload = (e) => {
         const fileContent = e.target?.result as string;
-        
-        // Call the code analyzer service here
-        const hasCodeSmells = this.codeAnalyzerService.detectLongFunctions(fileContent);
 
-        // Update codeSmellDetected based on the analysis result
-        this.codeSmellDetected = hasCodeSmells;
+        console.log('File Content:', fileContent);
+
+        try {
+          const longFunctionReports = this.codeAnalyzerService.detectLongFunctions(fileContent);
+          console.log('Long Functions Report:', longFunctionReports);
+
+          this.longFunctionReports = longFunctionReports; // Update the component property
+          this.codeSmellDetected = this.longFunctionReports.length > 0;
+          console.log('Code Smell Detected:', this.codeSmellDetected);
+        } catch (error) {
+          console.error('Error analyzing code:', error);
+        }
       };
+
       fileReader.readAsText(this.selectedFile);
     }
   }

@@ -1,34 +1,65 @@
+// code-analyzer.service.ts
+
 import { Injectable } from '@angular/core';
-import * as ts from 'typescript';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CodeAnalyzerService {
-  constructor() {}
+  // code-analyzer.service.ts
 
-  detectLongFunctions(code: string): boolean {
-    const ast: ts.SourceFile = ts.createSourceFile('temp.ts', code, ts.ScriptTarget.Latest, true);
+  detectLongFunctions(code: string, threshold: number = 20): LongFunctionReport[] {
+    const longFunctionReports: LongFunctionReport[] = [];
 
-    let longFunctionDetected = false;
+    // Split the code into lines
+    const lines = code.split('\n');
 
-    function visit(node: ts.Node): void {
-      if (ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node)) {
-        const startLine = ast.getLineAndCharacterOfPosition(node.getStart()).line + 1;
-        const endLine = ast.getLineAndCharacterOfPosition(node.getEnd()).line + 1;
+    // Variables to track the current function
+    let currentFunctionName = '';
+    let currentFunctionLines: string[] = [];
 
-        const linesWithinFunction = code.split('\n').slice(startLine - 1, endLine).filter((line) => line.trim() !== '');
+    for (const line of lines) {
+      const trimmedLine = line.trim();
 
-        if (linesWithinFunction.length > 15) {
-          longFunctionDetected = true;
+      // Check if the line defines a new function or other statements
+      const functionDeclarationMatch = trimmedLine.match(/^\s*(?:function\s+(\w+)\s*\(|(\w+)\s*[:]\s*function\s*\()/);
+      if (functionDeclarationMatch) {
+        // If we were processing a previous function, check its length
+        if (currentFunctionName && currentFunctionLines.length > threshold) {
+          const report: LongFunctionReport = {
+            functionName: currentFunctionName,
+            linesOfCode: currentFunctionLines.length,
+          };
+          longFunctionReports.push(report);
         }
-      }
 
-      ts.forEachChild(node, visit);
+        // Start processing a new function
+        currentFunctionName = functionDeclarationMatch[1] || functionDeclarationMatch[2];
+        currentFunctionLines = [trimmedLine];
+      } else {
+        // Continue processing the current function or other statements
+        currentFunctionLines.push(trimmedLine);
+      }
     }
 
-    visit(ast);
+    // Check the last function in case it wasn't followed by a new one
+    if (currentFunctionName && currentFunctionLines.length > threshold) {
+      const report: LongFunctionReport = {
+        functionName: currentFunctionName,
+        linesOfCode: currentFunctionLines.length,
+      };
+      longFunctionReports.push(report);
+    }
 
-    return longFunctionDetected;
+    console.log(longFunctionReports); // Add this line for debugging
+
+    return longFunctionReports;
   }
+
+  
+}
+
+export interface LongFunctionReport {
+  functionName: string;
+  linesOfCode: number;
 }
