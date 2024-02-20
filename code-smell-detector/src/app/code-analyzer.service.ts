@@ -22,7 +22,7 @@ export class CodeAnalyzerService {
       const trimmedLine = line.trim();
 
       // Check if the line defines a new function or other statements
-      const functionDeclarationMatch = trimmedLine.match(/^\s*(?:function\s+(\w+)\s*\(|(\w+)\s*[:]\s*function\s*\()/);
+      const functionDeclarationMatch = trimmedLine.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*\)\s*:/);
       if (functionDeclarationMatch) {
         // If we were processing a previous function, check its length
         if (currentFunctionName && currentFunctionLines.length > threshold) {

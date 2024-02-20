@@ -25,7 +25,7 @@
         <div class="mb-3">
           <label for="fileInput" class="form-label"></label>
           <div class="input-group">
-            <input type="file" class="form-control" id="fileInput" (change)="onFileSelected($event)" />
+            <input type="file" class="form-control" id="fileInput"  accept=".ts" (change)="onFileSelected($event)" />
             <button type="button" class="btn btn-danger" (click)="analyzeCode()">Analyze Code</button>
           </div>
         </div>
