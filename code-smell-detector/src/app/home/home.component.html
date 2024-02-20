@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div *ngIf="!codeSmellDetected && selectedFile" class="mt-4 alert alert-success">
+        <div *ngIf="!codeSmellDetected && codeAnalysed && selectedFile" class="mt-4 alert alert-success">
           <p>No code smells detected! Your code is clean.</p>
         </div>  
 
@@ -38,23 +38,24 @@
           <p>Code smells detected! Specifically, long functions.</p>
           
           <!-- Display additional information here -->
-          <table class="table table-bordered mt-3">
-            <thead>
-              <tr>
-                <th scope="col">Function Name</th>
-                <th scope="col">Lines of Code</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Loop through longFunctionReports and display each report in a row -->
-              <tr *ngFor="let report of longFunctionReports">
-                <td>{{ report.functionName }}</td>
-                <td>{{ report.linesOfCode }}</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="table table-bordered mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">Function Name</th>
+                  <th scope="col">Lines of Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Loop through longFunctionReports and display each report in a row -->
+                <tr *ngFor="let report of longFunctionReports">
+                  <td>{{ report.functionName }}</td>
+                  <td>{{ report.linesOfCode }}</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
       </form>
     </div>
   </div>
 </div>
+

@@ -8,6 +8,7 @@ import { CodeAnalyzerService, LongFunctionReport } from '../code-analyzer.servic
 })
 export class HomeComponent {
   codeSmellDetected = false;
+  codeAnalysed: boolean = false;
   selectedFile: File | null = null;
   longFunctionReports: LongFunctionReport[] = [];
 
@@ -43,5 +44,6 @@ export class HomeComponent {
 
       fileReader.readAsText(this.selectedFile);
     }
+    this.codeAnalysed = true;
   }
 }
