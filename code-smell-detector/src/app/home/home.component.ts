@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CodeAnalyzerService, LongFunctionReport } from '../code-analyzer.service';
+import { CodeAnalyzerService, FunctionsReport } from '../code-analyzer.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ export class HomeComponent {
   codeSmellDetected = false;
   codeAnalysed: boolean = false;
   selectedFile: File | null = null;
-  longFunctionReports: LongFunctionReport[] = [];
+  longFunctionReports: FunctionsReport[] = [];
 
   constructor(private codeAnalyzerService: CodeAnalyzerService) {}
 
@@ -31,7 +31,7 @@ export class HomeComponent {
         console.log('File Content:', fileContent);
 
         try {
-          const longFunctionReports = this.codeAnalyzerService.detectLongFunctions(fileContent);
+          const longFunctionReports = this.codeAnalyzerService.filterLongFunctions(fileContent);
           console.log('Long Functions Report:', longFunctionReports);
 
           this.longFunctionReports = longFunctionReports; // Update the component property

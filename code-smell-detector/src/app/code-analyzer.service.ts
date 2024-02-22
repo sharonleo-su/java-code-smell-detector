@@ -1,65 +1,60 @@
-// code-analyzer.service.ts
-
 import { Injectable } from '@angular/core';
+import * as ts from 'typescript';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CodeAnalyzerService {
-  // code-analyzer.service.ts
 
-  detectLongFunctions(code: string, threshold: number = 20): LongFunctionReport[] {
-    const longFunctionReports: LongFunctionReport[] = [];
+  detectFunctions(code: string): FunctionsReport[] {
+    const sourceFile = ts.createSourceFile('temp.ts', code, ts.ScriptTarget.Latest, true);
+    const report: FunctionsReport[] = [];
 
-    // Split the code into lines
-    const lines = code.split('\n');
+    function countNonBlankLines(node: ts.Node): number {
+      const startLine = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line;
+      const endLine = sourceFile.getLineAndCharacterOfPosition(node.getEnd()).line;
 
-    // Variables to track the current function
-    let currentFunctionName = '';
-    let currentFunctionLines: string[] = [];
-
-    for (const line of lines) {
-      const trimmedLine = line.trim();
-
-      // Check if the line defines a new function or other statements
-      const functionDeclarationMatch = trimmedLine.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*\)\s*:/);
-      if (functionDeclarationMatch) {
-        // If we were processing a previous function, check its length
-        if (currentFunctionName && currentFunctionLines.length > threshold) {
-          const report: LongFunctionReport = {
-            functionName: currentFunctionName,
-            linesOfCode: currentFunctionLines.length,
-          };
-          longFunctionReports.push(report);
+      let nonBlankLines = 0;
+      for (let line = startLine; line <= endLine; line++) {
+        const text = sourceFile.text.split('\n')[line].trim();
+        if (text !== '') {
+          nonBlankLines++;
         }
-
-        // Start processing a new function
-        currentFunctionName = functionDeclarationMatch[1] || functionDeclarationMatch[2];
-        currentFunctionLines = [trimmedLine];
-      } else {
-        // Continue processing the current function or other statements
-        currentFunctionLines.push(trimmedLine);
       }
+
+      return nonBlankLines;
     }
 
-    // Check the last function in case it wasn't followed by a new one
-    if (currentFunctionName && currentFunctionLines.length > threshold) {
-      const report: LongFunctionReport = {
-        functionName: currentFunctionName,
-        linesOfCode: currentFunctionLines.length,
-      };
-      longFunctionReports.push(report);
+    function visit(node: ts.Node) {
+      if (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node)) {
+        const functionName = node.name?.getText();
+        const linesOfCode = countNonBlankLines(node);
+
+        if (functionName) {
+          const functionData: FunctionsReport = {
+            functionName,
+            linesOfCode,
+          };
+          report.push(functionData);
+        }
+      }
+
+      ts.forEachChild(node, visit);
     }
 
-    console.log(longFunctionReports); // Add this line for debugging
+    visit(sourceFile);
 
-    return longFunctionReports;
+    return report;
   }
 
-  
+  filterLongFunctions(code: string, threshold: number = 15): FunctionsReport[] {
+    const report: FunctionsReport[] = this.detectFunctions(code);
+    const longFunctionsReport: FunctionsReport[] = report.filter((functionData) => functionData.linesOfCode > threshold);
+    return longFunctionsReport;
+  }
 }
 
-export interface LongFunctionReport {
+export interface FunctionsReport {
   functionName: string;
   linesOfCode: number;
 }
