@@ -20,30 +20,26 @@ export class HomeComponent {
   }
 
   analyzeCode(): void {
-    console.log('Button clicked!');
-
     if (this.selectedFile) {
       const fileReader = new FileReader();
 
       fileReader.onload = (e) => {
         const fileContent = e.target?.result as string;
-
-        console.log('File Content:', fileContent);
-
-        try {
-          const longFunctionReports = this.codeAnalyzerService.filterLongFunctions(fileContent);
-          console.log('Long Functions Report:', longFunctionReports);
-
-          this.longFunctionReports = longFunctionReports; // Update the component property
-          this.codeSmellDetected = this.longFunctionReports.length > 0;
-          console.log('Code Smell Detected:', this.codeSmellDetected);
-        } catch (error) {
-          console.error('Error analyzing code:', error);
-        }
+        const longFunctionReports = this.analyzeCodeForLongFunctions(fileContent);
+        this.updateAnalysisResults(longFunctionReports);
       };
 
       fileReader.readAsText(this.selectedFile);
     }
     this.codeAnalysed = true;
+  }
+
+  private analyzeCodeForLongFunctions(fileContent: string): FunctionsReport[] {
+    return this.codeAnalyzerService.filterLongFunctions(fileContent);
+  }
+
+  private updateAnalysisResults(longFunctionReports: FunctionsReport[]): void {
+    this.longFunctionReports = longFunctionReports;
+    this.codeSmellDetected = this.longFunctionReports.length > 0;
   }
 }
