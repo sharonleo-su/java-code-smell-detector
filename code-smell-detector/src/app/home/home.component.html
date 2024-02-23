@@ -37,7 +37,6 @@
         <div *ngIf="codeSmellDetected" class="mt-4 alert alert-danger">
           <p>Code smells detected! Specifically, long functions.</p>
           
-          <!-- Display additional information here -->
             <table class="table table-bordered mt-3">
               <thead>
                 <tr>
@@ -46,7 +45,7 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Loop through longFunctionReports and display each report in a row -->
+
                 <tr *ngFor="let report of longFunctionReports">
                   <td>{{ report.functionName }}</td>
                   <td>{{ report.linesOfCode }}</td>
