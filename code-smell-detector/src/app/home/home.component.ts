@@ -11,6 +11,7 @@ export class HomeComponent {
   codeAnalysed: boolean = false;
   selectedFile: File | null = null;
   longFunctionReports: FunctionsReport[] = [];
+  longParameterReports: FunctionsReport[] = [];
 
   constructor(private codeAnalyzerService: CodeAnalyzerService) {}
 
@@ -26,7 +27,8 @@ export class HomeComponent {
       fileReader.onload = (e) => {
         const fileContent = e.target?.result as string;
         const longFunctionReports = this.analyzeCodeForLongFunctions(fileContent);
-        this.updateAnalysisResults(longFunctionReports);
+        const longParameterReports = this.analyzeCodeForLongParameters(fileContent);
+        this.updateAnalysisResults(longFunctionReports, longParameterReports);
       };
 
       fileReader.readAsText(this.selectedFile);
@@ -38,8 +40,13 @@ export class HomeComponent {
     return this.codeAnalyzerService.filterLongFunctions(fileContent);
   }
 
-  private updateAnalysisResults(longFunctionReports: FunctionsReport[]): void {
+  private analyzeCodeForLongParameters(fileContent: string): FunctionsReport[] {
+    return this.codeAnalyzerService.filterLongParameters(fileContent);
+  }
+
+  private updateAnalysisResults(longFunctionReports: FunctionsReport[], longParameterReports: FunctionsReport[]): void {
     this.longFunctionReports = longFunctionReports;
-    this.codeSmellDetected = this.longFunctionReports.length > 0;
+    this.longParameterReports = longParameterReports;
+    this.codeSmellDetected = this.longFunctionReports.length > 0 || this.longParameterReports.length > 0;
   }
 }

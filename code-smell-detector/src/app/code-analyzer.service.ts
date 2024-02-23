@@ -25,15 +25,29 @@ export class CodeAnalyzerService {
       return nonBlankLines;
     }
 
+    function getFunctionParameters(node: ts.FunctionDeclaration | ts.MethodDeclaration): string[] {
+      const parameters: string[] = [];
+
+      if (node.parameters) {
+        for (const param of node.parameters) {
+          parameters.push(param.name.getText());
+        }
+      }
+
+      return parameters;
+    }
+
     function visit(node: ts.Node) {
       if (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node)) {
         const functionName = node.name?.getText();
         const linesOfCode = countNonBlankLines(node);
+        const parameters = getFunctionParameters(node);
 
         if (functionName) {
           const functionData: FunctionsReport = {
             functionName,
             linesOfCode,
+            parameters,
           };
           report.push(functionData);
         }
@@ -52,9 +66,15 @@ export class CodeAnalyzerService {
     const longFunctionsReport: FunctionsReport[] = report.filter((functionData) => functionData.linesOfCode > threshold);
     return longFunctionsReport;
   }
+  filterLongParameters(code: string, threshold: number = 3) : FunctionsReport[] {
+    const report : FunctionsReport[] = this.detectFunctions(code);
+    const longParametersReport: FunctionsReport[] = report.filter((functionData) => functionData.parameters.length > threshold);
+    return longParametersReport;
+  }
 }
 
 export interface FunctionsReport {
   functionName: string;
   linesOfCode: number;
+  parameters: string[];
 }

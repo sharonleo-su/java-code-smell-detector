@@ -35,23 +35,45 @@
         </div>  
 
         <div *ngIf="codeSmellDetected" class="mt-4 alert alert-danger">
-          <p>Code smells detected! Specifically, long functions.</p>
-          
-            <table class="table table-bordered mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">Function Name</th>
-                  <th scope="col">Lines of Code</th>
-                </tr>
-              </thead>
-              <tbody>
+          <p>Code smells detected!</p>
+        </div>
 
-                <tr *ngFor="let report of longFunctionReports">
-                  <td>{{ report.functionName }}</td>
-                  <td>{{ report.linesOfCode }}</td>
-                </tr>
-              </tbody>
-            </table>
+        <div *ngIf="longFunctionReports.length > 0">
+          <p>There is at least one function or method with more than 15 lines of code.</p>
+          <table class="table table-bordered mt-3">
+            <thead>
+              <tr>
+                <th scope="col">Function Name</th>
+                <th scope="col">Lines of Code</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let report of longFunctionReports">
+                <td>{{ report.functionName }}</td>
+                <td>{{ report.linesOfCode }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="longParameterReports.length > 0">
+          <p>There is at least one function or method with more than 3 parameters.</p>
+          <table class="table table-bordered mt-3">
+            <thead>
+              <tr>
+                <th scope="col">Function Name</th>
+                <th scope="col">Number of Parameters</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let report of longParameterReports">
+                <td>{{ report.functionName }}</td>
+                <td>{{ report.parameters }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </form>
     </div>
