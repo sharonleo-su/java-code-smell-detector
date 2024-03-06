@@ -42,20 +42,35 @@ export class CodeAnalyzerService {
         const functionName = node.name?.getText();
         const linesOfCode = countNonBlankLines(node);
         const parameters = getFunctionParameters(node);
-
+        const lineNumbers = getLineNumbers(node);
+    
         if (functionName) {
           const functionData: FunctionsReport = {
             functionName,
             linesOfCode,
             parameters,
+            lineNumbers,
           };
           report.push(functionData);
         }
       }
-
+    
       ts.forEachChild(node, visit);
     }
-
+    
+    // Add this function to retrieve line numbers for a given node
+    function getLineNumbers(node: ts.Node): number[] {
+      const startLine = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1; // Line numbers are 1-based
+      const endLine = sourceFile.getLineAndCharacterOfPosition(node.getEnd()).line + 1;
+      const lineNumbers = [];
+    
+      for (let line = startLine; line <= endLine; line++) {
+        lineNumbers.push(line);
+      }
+    
+      return lineNumbers;
+    }
+    
     visit(sourceFile);
 
     return report;
@@ -77,4 +92,5 @@ export interface FunctionsReport {
   functionName: string;
   linesOfCode: number;
   parameters: string[];
+  lineNumbers: number[];
 }

@@ -75,6 +75,20 @@
             </tbody>
           </table>
         </div>
+
+        <div id="scrollableWindow">
+          <pre>
+            <code>
+              <span *ngFor="let line of highlightCode()">
+                <ng-container *ngIf="isLineObject(line); else stringContent">
+                  <span [ngClass]="{ 'highlighted-line': line.isHighlighted }">{{ line.line }}</span>
+                </ng-container>
+                <ng-template #stringContent>{{ line }}</ng-template>
+              </span>
+            </code>
+          </pre>
+        </div>        
+        
       </form>
     </div>
   </div>

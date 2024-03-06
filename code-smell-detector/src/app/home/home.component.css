@@ -56,3 +56,23 @@ button {
 table {
     background-color: pink;
 }
+
+#scrollableWindow {
+    height: 300px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    white-space: pre-wrap;
+    background-color: #ffffff;
+}
+
+pre {
+    color: #000; /* Set a standard text color for non-highlighted lines */
+}
+
+.highlighted-line {
+    background-color: #ffe6e6;
+    display: block;
+  }
+  
