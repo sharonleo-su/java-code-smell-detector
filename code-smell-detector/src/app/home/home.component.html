@@ -76,19 +76,22 @@
           </table>
         </div>
 
-        <div id="scrollableWindow">
-          <pre style="margin: 0; padding: 0;">
-            <code style="margin: 0; padding: 0;">
-              <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
-                <ng-container *ngIf="isLineObject(line); else stringContent">
-                  <span class="no-extra-space">{{ line.line }}</span>
-                </ng-container>
-                <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
-              </span>
-            </code>
-          </pre>
-        </div>        
-        
+        <div>
+          <p *ngIf="codeSmellDetected">Here's your code. Scroll to see highlighted sections with smells.</p>
+          <div id="scrollableWindow" *ngIf="codeSmellDetected">
+            <pre style="margin: 0; padding: 0;">
+              <code style="margin: 0; padding: 0;">
+                <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
+                  <ng-container *ngIf="isLineObject(line); else stringContent">
+                    <span class="no-extra-space">{{ line.line }}</span>
+                  </ng-container>
+                  <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
+                </span>
+              </code>
+            </pre>
+          </div>        
+        </div>
+
       </form>
     </div>
   </div>

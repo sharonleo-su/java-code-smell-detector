@@ -1,6 +1,12 @@
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: 	#7FFFD4; 
@@ -59,20 +65,22 @@ table {
 
 #scrollableWindow {
     height: 300px;
+    width: 800px;
     overflow: auto;
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
     white-space: pre-wrap;
-    background-color: #ffffff;
+    background-color: #333;
+    padding: 0;
 }
 
 pre {
-    color: #000; /* Set a standard text color for non-highlighted lines */
+    color: #fff;
 }
 
 .highlighted-line {
-    background-color: #ffe6e6;
+    background-color: rgba(255, 165, 0, 0.7);
     display: block;
     width: 1000px;
   }
