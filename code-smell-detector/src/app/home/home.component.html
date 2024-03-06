@@ -77,13 +77,13 @@
         </div>
 
         <div id="scrollableWindow">
-          <pre>
-            <code>
-              <span *ngFor="let line of highlightCode()">
+          <pre style="margin: 0; padding: 0;">
+            <code style="margin: 0; padding: 0;">
+              <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
                 <ng-container *ngIf="isLineObject(line); else stringContent">
-                  <span [ngClass]="{ 'highlighted-line': line.isHighlighted }">{{ line.line }}</span>
+                  <span class="no-extra-space">{{ line.line }}</span>
                 </ng-container>
-                <ng-template #stringContent>{{ line }}</ng-template>
+                <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
               </span>
             </code>
           </pre>

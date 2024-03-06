@@ -79,7 +79,7 @@ export class HomeComponent {
       const isHighlighted = this.isLineHighlighted(i);
   
       if (isHighlighted) {
-        highlightedLines.push({ line, isHighlighted });
+        highlightedLines.push({line, isHighlighted});
       } else {
         highlightedLines.push(line);
       }
