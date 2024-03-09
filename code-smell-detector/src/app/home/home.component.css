@@ -68,11 +68,10 @@ table {
     width: 800px;
     overflow: auto;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px;
     text-align: left;
     white-space: pre-wrap;
     background-color: #333;
-    padding: 0;
 }
 
 pre {
