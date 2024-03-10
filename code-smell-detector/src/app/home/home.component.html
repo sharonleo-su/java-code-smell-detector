@@ -92,6 +92,11 @@
           </div>        
         </div>
 
+      <div class="mt-4 text-center" *ngIf="codeAnalysed && selectedFile">
+        <button type="button" class="btn btn-primary" (click)="findDuplicateMethodsAndFunctions()">Find Duplicates</button>
+      </div>
+
+
       </form>
     </div>
   </div>

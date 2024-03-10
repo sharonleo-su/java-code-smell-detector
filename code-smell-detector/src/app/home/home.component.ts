@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CodeAnalyzerService, FunctionsReport } from '../code-analyzer.service';
+import { DuplicateFinderService } from '../duplicate-finder.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +16,13 @@ export class HomeComponent {
   fileContent: string = '';
   longFunctionReports: FunctionsReport[] = [];
   longParameterReports: FunctionsReport[] = [];
+  duplicateMethodsAndFunctions: FunctionsReport[] = [];
 
-  constructor(private codeAnalyzerService: CodeAnalyzerService, private sanitizer: DomSanitizer) {}
+  constructor(private codeAnalyzerService: CodeAnalyzerService, 
+              private duplicateFinderService: DuplicateFinderService,
+              private sanitizer: DomSanitizer,
+              private router: Router
+    ) {}
 
   onFileSelected(event: any): void {
     const files: FileList = event.target.files || event.srcElement.files;
@@ -55,6 +62,21 @@ export class HomeComponent {
     this.longFunctionReports = longFunctionReports;
     this.longParameterReports = longParameterReports;
     this.codeSmellDetected = this.longFunctionReports.length > 0 || this.longParameterReports.length > 0;
+  }
+
+  findDuplicateMethodsAndFunctions(): void {
+    if (this.selectedFile) {
+      const fileReader = new FileReader();
+
+      fileReader.onload = (e) => {
+        this.fileContent = e.target?.result as string;
+        this.duplicateMethodsAndFunctions = this.duplicateFinderService.findDuplicates(this.fileContent);
+
+        this.router.navigate(['/duplicate-finder'], { state: { duplicates: this.duplicateMethodsAndFunctions } });
+      };
+
+      fileReader.readAsText(this.selectedFile);
+    }
   }
 
   isLineHighlighted(lineIndex: number): boolean {

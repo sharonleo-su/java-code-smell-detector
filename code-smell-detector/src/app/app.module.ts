@@ -9,13 +9,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeComponent } from './home/home.component';
+import { DuplicateFinderComponent } from './duplicate-finder/duplicate-finder.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GuiComponent,
-    HomeComponent 
+    HomeComponent,
+    DuplicateFinderComponent 
   ],
   imports: [
     BrowserModule,
