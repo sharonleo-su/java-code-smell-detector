@@ -12,6 +12,14 @@ export class DuplicateFinderService {
   constructor(private codeAnalyzerService: CodeAnalyzerService) {
   }
 
+  setFileContent(content: string): void {
+    this.fileContent = content;
+  }
+
+  getFileContent(): string {
+    return this.fileContent;
+  }
+
   private getCodeContent(func: FunctionsReport, fileContent: string): string {
     // Assuming the 'fileContent' is the code content you want to analyze
     const codeLines = this.getCodeLines(fileContent).slice(Math.min(...func.lineNumbers) - 1, Math.max(...func.lineNumbers));
@@ -19,7 +27,7 @@ export class DuplicateFinderService {
   }
 
   public findDuplicates(fileContent: string, threshold: number = 0.75): FunctionsReport[] {
-    this.fileContent = fileContent;
+    this.setFileContent(fileContent);
     const report: FunctionsReport[] = this.codeAnalyzerService.detectFunctions(this.fileContent);
     const duplicates: FunctionsReport[] = [];
   

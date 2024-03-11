@@ -20,34 +20,47 @@
 
 <div class="d-flex justify-content-center">
     <div class="col-md-6">
-
-        <div *ngIf="!duplicatesDetected" class="mt-4 alert alert-success">
-            <p>No duplicate methods or functions detected!</p>
-        </div>  
-
-        <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
-            <p>Duplicate methods or functions detected!</p>
+      <div *ngIf="!duplicatesDetected" class="mt-4 alert alert-success">
+        <p>No duplicate methods or functions detected!</p>
+      </div>
+  
+      <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
+        <p>Duplicate methods or functions detected!</p>
+      </div>
+  
+      <div *ngIf="duplicatesDetected">
+        <p>There is at least one pair of duplicate functions or methods.</p>
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr>
+              <th scope="col">Function Name</th>
+              <th scope="col">Line Numbers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let duplicate of duplicateMethodsAndFunctions">
+              <td>{{ duplicate.functionName }}</td>
+              <td>{{ duplicate.lineNumbers }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div *ngIf="duplicatesDetected">
+        <p>Here's your code. Scroll to see highlighted sections indicating duplicates.</p>
+        <div id="scrollableWindow" class="scrollable-window">
+          <pre style="margin: 0; padding: 0;">
+            <code style="margin: 0; padding: 0;">
+              <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
+                <ng-container *ngIf="isLineObject(line); else stringContent">
+                  <span class="no-extra-space">{{ line.line }}</span>
+                </ng-container>
+                <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
+              </span>
+            </code>
+          </pre>
         </div>
-
-        <div *ngIf="duplicatesDetected">
-            <p>There is at least one pair of duplicate functions or methods.</p>
-            <table class="table table-bordered mt-3">
-            <thead>
-                <tr>
-                <th scope="col">Function Name</th>
-                <th scope="col">Line Numbers</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr *ngFor="let duplicate of duplicateMethodsAndFunctions">
-                <td>{{ duplicate.functionName }}</td>
-                <td>{{ duplicate.lineNumbers }}</td>
-                </tr>
-            </tbody>
-            </table>
-        </div>
+      </div>
     </div>
 </div>
-
   
