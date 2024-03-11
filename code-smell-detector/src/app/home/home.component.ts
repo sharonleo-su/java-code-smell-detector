@@ -67,17 +67,18 @@ export class HomeComponent {
   findDuplicateMethodsAndFunctions(): void {
     if (this.selectedFile) {
       const fileReader = new FileReader();
-
+  
       fileReader.onload = (e) => {
         this.fileContent = e.target?.result as string;
         this.duplicateMethodsAndFunctions = this.duplicateFinderService.findDuplicates(this.fileContent);
-
-        this.router.navigate(['/duplicate-finder'], { state: { duplicates: this.duplicateMethodsAndFunctions } });
+  
+        // Instead of navigating with state, use queryParams to pass the data
+        this.router.navigate(['/duplicate-finder'], { queryParams: { duplicates: JSON.stringify(this.duplicateMethodsAndFunctions) } });
       };
-
+  
       fileReader.readAsText(this.selectedFile);
     }
-  }
+  }  
 
   isLineHighlighted(lineIndex: number): boolean {
     const isLongFunction = this.longFunctionReports.some(

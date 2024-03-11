@@ -18,7 +18,36 @@
     </div>
 </nav>
 
-<div *ngFor="let duplicate of duplicateMethodsAndFunctions">
-    <p>{{ duplicate.functionName }} is a duplicate</p>
-  </div>
+<div class="d-flex justify-content-center">
+    <div class="col-md-6">
+
+        <div *ngIf="!duplicatesDetected" class="mt-4 alert alert-success">
+            <p>No duplicate methods or functions detected!</p>
+        </div>  
+
+        <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
+            <p>Duplicate methods or functions detected!</p>
+        </div>
+
+        <div *ngIf="duplicatesDetected">
+            <p>There is at least one pair of duplicate functions or methods.</p>
+            <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                <th scope="col">Function Name</th>
+                <th scope="col">Line Numbers</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let duplicate of duplicateMethodsAndFunctions">
+                <td>{{ duplicate.functionName }}</td>
+                <td>{{ duplicate.lineNumbers }}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
   

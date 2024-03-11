@@ -33,6 +33,7 @@ export class DuplicateFinderService {
         }
       }
     }
+    console.log(duplicates);
   
     return duplicates;
   }
