@@ -19,59 +19,63 @@
 </nav>
 
 <div class="d-flex justify-content-center">
-    <div class="col-md-6">
-      <div *ngIf="!duplicatesDetected" class="mt-4 alert alert-success">
-        <p>No duplicate methods or functions detected!</p>
-      </div>
-  
-      <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
-        <p>Duplicate methods or functions detected!</p>
-      </div>
-  
-
-      <div *ngIf="duplicatesDetected">
-        <p>There is at least one pair of duplicate functions or methods.</p>
-        <table class="grouped-table">
-          <thead>
-            <tr>
-              <th scope="col">Function Name</th>
-              <th scope="col">Line Numbers</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Loop through each group of duplicate functions -->
-            <ng-container *ngFor="let group of duplicateMethodsAndFunctions; let i = index">
-              <!-- Check if the group has more than one function -->
-              <ng-container *ngIf="group.length > 1">
-                <!-- Loop through each function in the group -->
-                <tr *ngFor="let duplicate of group" [class]="'group-color-' + (i % 3 + 1)">
-                  <td>{{ duplicate.functionName }}</td>
-                  <td>{{ duplicate.lineNumbers.join(', ') }}</td>
-                </tr>
-              </ng-container>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
-      
-    
-      <div *ngIf="duplicatesDetected">
-        <br>
-        <p>Here's your code. Scroll to see highlighted sections with duplicate functions or methods.</p>
-        <div id="scrollableWindow" class="scrollable-window">
-          <pre style="margin: 0; padding: 0;">
-            <code style="margin: 0; padding: 0;">
-              <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
-                <ng-container *ngIf="isLineObject(line); else stringContent">
-                  <span class="no-extra-space">{{ line.line }}</span>
-                </ng-container>
-                <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
-              </span>
-            </code>
-          </pre>
-        </div>
-      </div>
-
+  <div class="col-md-6">
+    <div *ngIf="!duplicatesDetected" class="mt-4 alert alert-success">
+      <p>No duplicate methods or functions detected!</p>
     </div>
+
+    <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
+      <p>Duplicate methods or functions detected!</p>
+    </div>
+
+
+    <div *ngIf="duplicatesDetected">
+      <p>There is at least one pair of duplicate functions or methods.</p>
+      <table class="grouped-table">
+        <thead>
+          <tr>
+            <th scope="col">Function Name</th>
+            <th scope="col">Line Numbers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loop through each group of duplicate functions -->
+          <ng-container *ngFor="let group of duplicateMethodsAndFunctions; let i = index">
+            <!-- Check if the group has more than one function -->
+            <ng-container *ngIf="group.length > 1">
+              <!-- Loop through each function in the group -->
+              <tr *ngFor="let duplicate of group" [class]="'group-color-' + (i % 3 + 1)">
+                <td>{{ duplicate.functionName }}</td>
+                <td>{{ duplicate.lineNumbers.join(', ') }}</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    
+  
+    <div *ngIf="duplicatesDetected">
+      <br>
+      <p>Here's your code. Scroll to see highlighted sections with duplicate functions or methods.</p>
+      <div id="scrollableWindow" class="scrollable-window">
+        <pre style="margin: 0; padding: 0;">
+          <code style="margin: 0; padding: 0;">
+            <span class="no-extra-space" *ngFor="let line of highlightCode()" [ngClass]="isLineObject(line) ? 'highlighted-line' : ''">
+              <ng-container *ngIf="isLineObject(line); else stringContent">
+                <span class="no-extra-space">{{ line.line }}</span>
+              </ng-container>
+              <ng-template #stringContent><span class="no-extra-space">{{ line }}</span></ng-template>
+            </span>
+          </code>
+        </pre>
+      </div>
+
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary mt-3" (click)="refactorCode()">Refactor Code?</button>
+      </div>
+    </div>
+
   </div>
+</div>
   

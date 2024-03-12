@@ -8,6 +8,7 @@ import { CodeAnalyzerService, FunctionsReport } from './code-analyzer.service';
 export class DuplicateFinderService {
 
   private fileContent: string = '';
+  private refactoredFileContent: string = '';
 
   constructor(private codeAnalyzerService: CodeAnalyzerService) {
   }
@@ -98,4 +99,27 @@ export class DuplicateFinderService {
   private getCodeLines(code: string): string[] {
     return code.trim().split('\n');
   }
+
+  public refactorCodeWithDuplicates(duplicateGroups: FunctionsReport[][]): string {
+    const retainedFunctions: FunctionsReport[] = duplicateGroups.map(group => group[0]);
+    this.refactoredFileContent = this.removeRedundantFunctions(retainedFunctions);
+
+    console.log(this.refactoredFileContent); // You can log or return the updated content as needed
+
+    return this.refactoredFileContent;
+  }
+
+  private removeRedundantFunctions(retainedFunctions: FunctionsReport[]): string {
+    const linesToRemove: Set<number> = new Set();
+  
+    for (const func of retainedFunctions) {
+      func.lineNumbers.forEach(lineNumber => linesToRemove.add(lineNumber));
+    }
+  
+    const codeLines: string[] = this.getCodeLines(this.fileContent);
+    const updatedCodeLines: string[] = codeLines.filter((_, index) => !linesToRemove.has(index + 1));
+  
+    return updatedCodeLines.join('\n');
+  }
+  
 }

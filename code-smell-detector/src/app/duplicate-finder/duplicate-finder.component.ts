@@ -13,6 +13,7 @@ export class DuplicateFinderComponent implements OnInit {
   duplicateMethodsAndFunctions: FunctionsReport[][] = [];
   duplicatesDetected: boolean = false;
   fileContent: string = '';
+  refactoredFileContent: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +28,12 @@ export class DuplicateFinderComponent implements OnInit {
     });
     if (this.duplicateMethodsAndFunctions.length > 0) {
       this.duplicatesDetected = true;
+    }
+  }
+
+  refactorCode(): void {
+    if (confirm('Are you sure you want to refactor the code?')) {
+      this.refactoredFileContent = this.duplicateFinderService.refactorCodeWithDuplicates(this.duplicateMethodsAndFunctions);
     }
   }
 
