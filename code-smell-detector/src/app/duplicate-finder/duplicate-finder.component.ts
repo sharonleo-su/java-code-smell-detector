@@ -37,39 +37,38 @@ export class DuplicateFinderComponent implements OnInit {
     return colors[index % colors.length];
   }
 
-  // getCodeLines(): string[] {
-  //   return this.fileContent.trim().split('\n');
-  // }
+  getCodeLines(): string[] {
+    return this.fileContent.trim().split('\n');
+  }
 
-  // isLineHighlighted(lineIndex: number): boolean {
-  //   const isDuplicate = this.duplicateMethodsAndFunctions.some(
-  //     (report) => report.lineNumbers.includes(lineIndex + 1) // line numbers are 1-based
-  //   );
+  highlightCode(): (string | { line: string; isHighlighted: boolean })[] {
+    const codeLines = this.getCodeLines();
+    const highlightedLines: (string | { line: string; isHighlighted: boolean })[] = [];
+  
+    for (let i = 0; i < codeLines.length; i++) {
+      const line = codeLines[i];
+      const isHighlighted = this.isLineHighlighted(i);
+  
+      if (isHighlighted) {
+        highlightedLines.push({ line, isHighlighted });
+      } else {
+        highlightedLines.push(line);
+      }
+    }
+  
+    return highlightedLines;
+  }
+  
+  isLineHighlighted(lineIndex: number): boolean {
+    const isDuplicate = this.duplicateMethodsAndFunctions.some(
+      (report) => report.some(({ lineNumbers }) => lineNumbers.includes(lineIndex + 1))
+    );
+  
+    return isDuplicate;
+  }
 
-  //   return isDuplicate;
-  // }
-
-
-  // highlightCode(): (string | { line: string, isHighlighted: boolean })[] {
-  //   const codeLines = this.getCodeLines();
-  //   const highlightedLines: (string | { line: string, isHighlighted: boolean })[] = [];
-  
-  //   for (let i = 0; i < codeLines.length; i++) {
-  //     const line = codeLines[i];
-  //     const isHighlighted = this.isLineHighlighted(i);
-  
-  //     if (isHighlighted) {
-  //       highlightedLines.push({line, isHighlighted});
-  //     } else {
-  //       highlightedLines.push(line);
-  //     }
-  //   }
-  
-  //   return highlightedLines;
-  // }
-  
-  // isLineObject(line: string | { line: string, isHighlighted: boolean }): line is { line: string, isHighlighted: boolean } {
-  //   return typeof line === 'object';
-  // }
+  isLineObject(line: string | { line: string; isHighlighted: boolean }): line is { line: string; isHighlighted: boolean } {
+    return typeof line === 'object' && 'line' in line && 'isHighlighted' in line;
+  }
 
 }
