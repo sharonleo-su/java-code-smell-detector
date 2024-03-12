@@ -1,21 +1,21 @@
 <!-- duplicate-finder.component.html -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/">
-        <img src="assets/SCENTINEL-updated.png" alt="Icon" width="80" height="80" class="d-inline-block align-top">
-      </a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
-          </li>
-        </ul>
-      </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/SCENTINEL-updated.png" alt="Icon" width="80" height="80" class="d-inline-block align-top">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
 <div class="d-flex justify-content-center">
@@ -27,7 +27,6 @@
     <div *ngIf="duplicatesDetected" class="mt-4 alert alert-danger">
       <p>Duplicate methods or functions detected!</p>
     </div>
-
 
     <div *ngIf="duplicatesDetected">
       <p>There is at least one pair of duplicate functions or methods.</p>
@@ -54,8 +53,25 @@
       </table>
     </div>
     
-  
-    <div *ngIf="duplicatesDetected">
+    <div *ngIf="refactoredCodeLines.length > 0">
+      <br>
+      <p>Here's the refactored code.</p>
+      <div id="scrollableWindow" class="scrollable-window">
+        <pre style="margin: 0; padding: 0;">
+          <code style="margin: 0; padding: 0;">
+            <span class="no-extra-space" *ngFor="let line of refactoredCodeLines">
+              <span class="no-extra-space">{{ line }}</span>
+            </span>
+          </code>
+        </pre>
+      </div>
+
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary mt-3" (click)="downloadRefactoredCode()">Download Refactored Code</button>
+      </div>
+    </div>
+
+    <div *ngIf="duplicatesDetected && refactoredCodeLines.length == 0">
       <br>
       <p>Here's your code. Scroll to see highlighted sections with duplicate functions or methods.</p>
       <div id="scrollableWindow" class="scrollable-window">
@@ -78,4 +94,3 @@
 
   </div>
 </div>
-  

@@ -13,7 +13,8 @@ export class DuplicateFinderComponent implements OnInit {
   duplicateMethodsAndFunctions: FunctionsReport[][] = [];
   duplicatesDetected: boolean = false;
   fileContent: string = '';
-  refactoredFileContent: string = '';
+  refactoringInProgress: boolean = false;
+  refactoredCodeLines: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,8 +34,25 @@ export class DuplicateFinderComponent implements OnInit {
 
   refactorCode(): void {
     if (confirm('Are you sure you want to refactor the code?')) {
-      this.refactoredFileContent = this.duplicateFinderService.refactorCodeWithDuplicates(this.duplicateMethodsAndFunctions);
+      this.refactoringInProgress = true;
+      this.refactoredCodeLines = this.duplicateFinderService.refactorCodeWithDuplicates(this.duplicateMethodsAndFunctions)
+        .trim().split('\n');
     }
+  }
+
+  downloadRefactoredCode(): void {
+    const fileName = 'refactored-code.ts';
+    const content = this.refactoredCodeLines.join('\n');
+    const blob = new Blob([content], { type: 'text/plain' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
   }
 
   getGroupClass(index: number): string {
