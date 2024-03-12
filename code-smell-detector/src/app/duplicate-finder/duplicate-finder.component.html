@@ -28,9 +28,10 @@
         <p>Duplicate methods or functions detected!</p>
       </div>
   
+
       <div *ngIf="duplicatesDetected">
         <p>There is at least one pair of duplicate functions or methods.</p>
-        <table class="table table-bordered mt-3">
+        <table class="grouped-table">
           <thead>
             <tr>
               <th scope="col">Function Name</th>
@@ -38,15 +39,25 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let duplicate of duplicateMethodsAndFunctions">
-              <td>{{ duplicate.functionName }}</td>
-              <td>{{ duplicate.lineNumbers }}</td>
-            </tr>
+            <!-- Loop through each group of duplicate functions -->
+            <ng-container *ngFor="let group of duplicateMethodsAndFunctions; let i = index">
+              <!-- Check if the group has more than one function -->
+              <ng-container *ngIf="group.length > 1">
+                <!-- Loop through each function in the group -->
+                <tr *ngFor="let duplicate of group" [class]="'group-color-' + (i % 3 + 1)">
+                  <td>{{ duplicate.functionName }}</td>
+                  <td>{{ duplicate.lineNumbers.join(', ') }}</td>
+                </tr>
+              </ng-container>
+            </ng-container>
           </tbody>
         </table>
       </div>
+      
+
+
   
-      <div *ngIf="duplicatesDetected">
+      <!-- <div *ngIf="duplicatesDetected">
         <p>Here's your code. Scroll to see highlighted sections indicating duplicates.</p>
         <div id="scrollableWindow" class="scrollable-window">
           <pre style="margin: 0; padding: 0;">
@@ -60,7 +71,7 @@
             </code>
           </pre>
         </div>
-      </div>
+      </div> -->
     </div>
-</div>
+  </div>
   

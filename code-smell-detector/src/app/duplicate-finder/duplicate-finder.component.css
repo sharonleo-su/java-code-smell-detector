@@ -59,9 +59,6 @@ button {
     margin-left: 115px;
 }
 
-table {
-    background-color: pink;
-}
 
 #scrollableWindow {
     height: 300px;
@@ -91,4 +88,25 @@ pre {
     line-height: 0.25;
 }
   
+.group-color-1 {
+    background-color: #915F6D;
+}
   
+.group-color-2 {
+    background-color: #AA98A9;
+}
+
+.group-color-3 {
+    background-color: #702963;
+}
+
+.grouped-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grouped-table th, .grouped-table td {
+    border: 1px solid #ddd; 
+    padding: 8px;
+    text-align: left;
+}

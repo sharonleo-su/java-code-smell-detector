@@ -10,7 +10,7 @@ import { DuplicateFinderService } from '../duplicate-finder.service';
   styleUrls: ['./duplicate-finder.component.css']
 })
 export class DuplicateFinderComponent implements OnInit {
-  duplicateMethodsAndFunctions: FunctionsReport[] = [];
+  duplicateMethodsAndFunctions: FunctionsReport[][] = [];
   duplicatesDetected: boolean = false;
   fileContent: string = '';
 
@@ -30,39 +30,46 @@ export class DuplicateFinderComponent implements OnInit {
     }
   }
 
-  getCodeLines(): string[] {
-    return this.fileContent.trim().split('\n');
+  getGroupClass(index: number): string {
+    // You can define your own logic for generating class names based on the index
+    // For example, using a predefined list of colors
+    const colors = ['group-color-1', 'group-color-2', 'group-color-3'];
+    return colors[index % colors.length];
   }
 
-  isLineHighlighted(lineIndex: number): boolean {
-    const isDuplicate = this.duplicateMethodsAndFunctions.some(
-      (report) => report.lineNumbers.includes(lineIndex + 1) // line numbers are 1-based
-    );
+  // getCodeLines(): string[] {
+  //   return this.fileContent.trim().split('\n');
+  // }
 
-    return isDuplicate;
-  }
+  // isLineHighlighted(lineIndex: number): boolean {
+  //   const isDuplicate = this.duplicateMethodsAndFunctions.some(
+  //     (report) => report.lineNumbers.includes(lineIndex + 1) // line numbers are 1-based
+  //   );
+
+  //   return isDuplicate;
+  // }
 
 
-  highlightCode(): (string | { line: string, isHighlighted: boolean })[] {
-    const codeLines = this.getCodeLines();
-    const highlightedLines: (string | { line: string, isHighlighted: boolean })[] = [];
+  // highlightCode(): (string | { line: string, isHighlighted: boolean })[] {
+  //   const codeLines = this.getCodeLines();
+  //   const highlightedLines: (string | { line: string, isHighlighted: boolean })[] = [];
   
-    for (let i = 0; i < codeLines.length; i++) {
-      const line = codeLines[i];
-      const isHighlighted = this.isLineHighlighted(i);
+  //   for (let i = 0; i < codeLines.length; i++) {
+  //     const line = codeLines[i];
+  //     const isHighlighted = this.isLineHighlighted(i);
   
-      if (isHighlighted) {
-        highlightedLines.push({line, isHighlighted});
-      } else {
-        highlightedLines.push(line);
-      }
-    }
+  //     if (isHighlighted) {
+  //       highlightedLines.push({line, isHighlighted});
+  //     } else {
+  //       highlightedLines.push(line);
+  //     }
+  //   }
   
-    return highlightedLines;
-  }
+  //   return highlightedLines;
+  // }
   
-  isLineObject(line: string | { line: string, isHighlighted: boolean }): line is { line: string, isHighlighted: boolean } {
-    return typeof line === 'object';
-  }
+  // isLineObject(line: string | { line: string, isHighlighted: boolean }): line is { line: string, isHighlighted: boolean } {
+  //   return typeof line === 'object';
+  // }
 
 }

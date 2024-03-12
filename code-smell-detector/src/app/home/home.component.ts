@@ -16,7 +16,7 @@ export class HomeComponent {
   fileContent: string = '';
   longFunctionReports: FunctionsReport[] = [];
   longParameterReports: FunctionsReport[] = [];
-  duplicateMethodsAndFunctions: FunctionsReport[] = [];
+  duplicateMethodsAndFunctions: FunctionsReport[][] = [];
 
   constructor(private codeAnalyzerService: CodeAnalyzerService, 
               private duplicateFinderService: DuplicateFinderService,
