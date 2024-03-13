@@ -72,7 +72,6 @@ export class HomeComponent {
         this.fileContent = e.target?.result as string;
         this.duplicateMethodsAndFunctions = this.duplicateFinderService.findDuplicates(this.fileContent);
   
-        // Instead of navigating with state, use queryParams to pass the data
         this.router.navigate(['/duplicate-finder'], { queryParams: { duplicates: JSON.stringify(this.duplicateMethodsAndFunctions) } });
       };
   
@@ -82,7 +81,7 @@ export class HomeComponent {
 
   isLineHighlighted(lineIndex: number): boolean {
     const isLongFunction = this.longFunctionReports.some(
-      (report) => report.lineNumbers.includes(lineIndex + 1) // line numbers are 1-based
+      (report) => report.lineNumbers.includes(lineIndex + 1) 
     );
 
     const isLongParameter = this.longParameterReports.some(

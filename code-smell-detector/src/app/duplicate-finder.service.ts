@@ -1,5 +1,3 @@
-// duplicate-finder.service.ts
-
 import { Injectable } from '@angular/core';
 import { CodeAnalyzerService, FunctionsReport } from './code-analyzer.service';
 
@@ -36,6 +34,7 @@ export class DuplicateFinderService {
     return duplicates;
   }
 
+  // Use a Jaccard value threshold of 0.75 to organize functions into groups. 
   public findGroups(fileContent: string, threshold: number = 0.75): FunctionsReport[][] {
     this.setFileContent(fileContent);
     const report: FunctionsReport[] = this.codeAnalyzerService.detectFunctions(this.fileContent);
@@ -46,7 +45,6 @@ export class DuplicateFinderService {
       let foundGroup = false;
 
       for (const group of groups) {
-        // Check if the current function is similar to any function in the group
         const similarity = group.some(groupFunc => this.calculateFunctionSimilarity(currentFunction, groupFunc) >= threshold);
 
         if (similarity) {
@@ -57,7 +55,6 @@ export class DuplicateFinderService {
       }
 
       if (!foundGroup) {
-        // Create a new group for the current function
         groups.push([currentFunction]);
       }
     }
@@ -67,6 +64,7 @@ export class DuplicateFinderService {
     return groups;
   }
 
+  // Take average of Jaccard similarity values for name similarity, parameter similarity and code similarity.
   private calculateFunctionSimilarity(func1: FunctionsReport, func2: FunctionsReport): number {
     const nameSimilarity = this.calculateStringSimilarity(func1.functionName, func2.functionName);
     const parameterSimilarity = this.calculateArraySimilarity(func1.parameters, func2.parameters);
@@ -80,6 +78,7 @@ export class DuplicateFinderService {
     return overallSimilarity;
   }
 
+  // Use Jaccard formula to get string similarity.
   private calculateStringSimilarity(str1: string, str2: string): number {
     const set1 = new Set(str1.split(''));
     const set2 = new Set(str2.split(''));
@@ -90,6 +89,7 @@ export class DuplicateFinderService {
     return intersection.length / union.length;
   }
 
+  // Use Jaccard formula to get array similarity. 
   private calculateArraySimilarity(arr1: string[], arr2: string[]): number {
     const intersection = arr1.filter(value => arr2.includes(value));
     const union = [...new Set([...arr1, ...arr2])];
@@ -104,13 +104,11 @@ export class DuplicateFinderService {
     const retainedFunctions: FunctionsReport[] = duplicateGroups.map(group => group[0]);
     this.refactoredFileContent = this.removeRedundantFunctions(duplicateGroups);
 
-    // Replace function calls to deleted functions with calls to the retained function for each group
     for (const group of duplicateGroups) {
       this.replaceFunctionCalls(group);
     }
 
-    console.log(this.refactoredFileContent); // You can log or return the updated content as needed
-
+    console.log(this.refactoredFileContent); 
     return this.refactoredFileContent;
   }
 

@@ -58,7 +58,6 @@ export class CodeAnalyzerService {
       ts.forEachChild(node, visit);
     }
     
-    // Add this function to retrieve line numbers for a given node
     function getLineNumbers(node: ts.Node): number[] {
       const startLine = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1; // Line numbers are 1-based
       const endLine = sourceFile.getLineAndCharacterOfPosition(node.getEnd()).line + 1;

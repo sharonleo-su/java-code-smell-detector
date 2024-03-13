@@ -1,5 +1,3 @@
-<!-- duplicate-finder.component.html -->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">
@@ -38,11 +36,8 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Loop through each group of duplicate functions -->
           <ng-container *ngFor="let group of duplicateMethodsAndFunctions; let i = index">
-            <!-- Check if the group has more than one function -->
             <ng-container *ngIf="group.length > 1">
-              <!-- Loop through each function in the group -->
               <tr *ngFor="let duplicate of group" [class]="'group-color-' + (i % 3 + 1)">
                 <td>{{ duplicate.functionName }}</td>
                 <td>{{ duplicate.lineNumbers.join(', ') }}</td>

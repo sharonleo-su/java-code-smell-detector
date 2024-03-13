@@ -1,4 +1,3 @@
-// duplicate-finder.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FunctionsReport } from '../code-analyzer.service';
@@ -56,8 +55,6 @@ export class DuplicateFinderComponent implements OnInit {
   }
 
   getGroupClass(index: number): string {
-    // You can define your own logic for generating class names based on the index
-    // For example, using a predefined list of colors
     const colors = ['group-color-1', 'group-color-2', 'group-color-3'];
     return colors[index % colors.length];
   }
