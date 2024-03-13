@@ -29,7 +29,7 @@
     </div>
 
     <div *ngIf="duplicatesDetected">
-      <p>There is at least one pair of duplicate functions or methods.</p>
+      <p>There is at least one set of duplicate functions or methods.</p>
       <table class="grouped-table">
         <thead>
           <tr>
@@ -55,7 +55,7 @@
     
     <div *ngIf="refactoredCodeLines.length > 0">
       <br>
-      <p>Here's the refactored code.</p>
+      <p>Take a look at the refactored code below!</p>
       <div id="scrollableWindow" class="scrollable-window">
         <pre style="margin: 0; padding: 0;">
           <code style="margin: 0; padding: 0;">
