@@ -1,4 +1,5 @@
 // duplicate-finder.service.ts
+
 import { Injectable } from '@angular/core';
 import { CodeAnalyzerService, FunctionsReport } from './code-analyzer.service';
 
@@ -66,7 +67,6 @@ export class DuplicateFinderService {
     return groups;
   }
 
-
   private calculateFunctionSimilarity(func1: FunctionsReport, func2: FunctionsReport): number {
     const nameSimilarity = this.calculateStringSimilarity(func1.functionName, func2.functionName);
     const parameterSimilarity = this.calculateArraySimilarity(func1.parameters, func2.parameters);
@@ -102,18 +102,26 @@ export class DuplicateFinderService {
 
   public refactorCodeWithDuplicates(duplicateGroups: FunctionsReport[][]): string {
     const retainedFunctions: FunctionsReport[] = duplicateGroups.map(group => group[0]);
-    this.refactoredFileContent = this.removeRedundantFunctions(retainedFunctions);
+    this.refactoredFileContent = this.removeRedundantFunctions(duplicateGroups);
+
+    // Replace function calls to deleted functions with calls to the retained function for each group
+    for (const group of duplicateGroups) {
+      this.replaceFunctionCalls(group);
+    }
 
     console.log(this.refactoredFileContent); // You can log or return the updated content as needed
 
     return this.refactoredFileContent;
   }
 
-  private removeRedundantFunctions(retainedFunctions: FunctionsReport[]): string {
+  private removeRedundantFunctions(duplicateGroups: FunctionsReport[][]): string {
     const linesToRemove: Set<number> = new Set();
   
-    for (const func of retainedFunctions) {
-      func.lineNumbers.forEach(lineNumber => linesToRemove.add(lineNumber));
+    for (const group of duplicateGroups) {
+      for (let i = 1; i < group.length; i++) {
+        const func = group[i];
+        func.lineNumbers.forEach(lineNumber => linesToRemove.add(lineNumber));
+      }
     }
   
     const codeLines: string[] = this.getCodeLines(this.fileContent);
@@ -121,5 +129,18 @@ export class DuplicateFinderService {
   
     return updatedCodeLines.join('\n');
   }
-  
+
+  private replaceFunctionCalls(group: FunctionsReport[]): void {
+    const retainedFunctionName = group[0].functionName;
+    const codeLines: string[] = this.getCodeLines(this.refactoredFileContent);
+
+    for (let i = 0; i < codeLines.length; i++) {
+      let line = codeLines[i];
+      const functionNameRegex = new RegExp(`\\b(${group.map(func => func.functionName).join('|')})\\b`, 'g');
+      line = line.replace(functionNameRegex, retainedFunctionName);
+      codeLines[i] = line;
+    }
+
+    this.refactoredFileContent = codeLines.join('\n');
+  }
 }
