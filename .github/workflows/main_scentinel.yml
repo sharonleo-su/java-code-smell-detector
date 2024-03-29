@@ -3,7 +3,8 @@ name: Angular Azure Deployment
 on:
   push:
     branches:
-      - main  # Or use the branch you want to trigger deployments from
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
