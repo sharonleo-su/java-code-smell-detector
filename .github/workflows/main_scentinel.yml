@@ -28,7 +28,7 @@ jobs:
       - name: Build Angular app
         run: |
           cd code-smell-detector
-          ng build --prod --base-href=/
+          ng build --configuration=production --base-href=/
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
