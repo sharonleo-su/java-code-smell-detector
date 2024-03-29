@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: code-smell-detector
 
       - name: Build Angular app
         run: ng build --prod --base-href=/
