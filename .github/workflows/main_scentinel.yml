@@ -35,4 +35,4 @@ jobs:
         with:
           app-name: 'scentinel'
           publish-profile: ${{ secrets.SCENTINEL_AZURE_PUBLISH_PROFILE }}
-          package: dist/code-smell-detector  # Path to your Angular app build output
+          package: dist/  # Path to your Angular app build output
