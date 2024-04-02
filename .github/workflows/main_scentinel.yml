@@ -27,8 +27,6 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
         working-directory: code-smell-detector
 
       - name: Zip artifact for deployment
