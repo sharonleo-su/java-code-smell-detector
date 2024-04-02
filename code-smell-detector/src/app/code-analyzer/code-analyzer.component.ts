@@ -11,7 +11,7 @@ export class CodeAnalyzerComponent {
 
   // Example usage
   analyzeCodeSnippet(code: string): void {
-    const hasCodeSmells = this.codeAnalyzerService.detectLongFunctions(code);
+    const hasCodeSmells = this.codeAnalyzerService.detectFunctions(code);
 
     if (hasCodeSmells) {
       console.log('Long functions detected!');
