@@ -1,27 +1,70 @@
-# CodeSmellDetector
+# Scentinel - A code smell detector and refactoring tool for TypeScript files
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1.
+This project is an Angular application that serves as a Code Smell Detector and Refactoring Tool. It allows users to upload a single TypseScript file, analyzes the code for code smells, and offers refactoring options if duplicate code is detected.
 
-## Development server
+## Deployment
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This project is deployed on Azure. You can access the deployed version at https://icy-bay-0b3a26d10.5.azurestaticapps.net/.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clone the repository to your local machine:
 
-## Build
+   ```bash
+   git clone https://github.com/sharonleo-su/code-smell-detector.git
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Navigate to the project directory:
 
-## Running unit tests
+   ```bash
+   cd code-smell-detector
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Install dependencies:
 
-## Running end-to-end tests
+   ```bash
+   npm install
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+4. Navigate to the Angular project directory:
 
-## Further help
+   ```bash
+   cd code-smell-detector
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+5. Start the Angular development server:
+
+   ```bash
+   ng serve
+   ```
+
+6. Open your browser and navigate to `http://localhost:4200` to access the application.
+
+## Features
+
+### User Interface
+
+The application provides a user-friendly graphical user interface (GUI) for users to upload a single file and perform code smell detection and refactoring operations.
+
+### Code Smell Detection
+
+1. **Long Method/Function Detection:** Detects methods or functions with 16 or more lines of code, excluding blank lines.
+2. **Long Parameter List Detection:** Identifies methods or functions with 4 or more parameters.
+3. **Duplicated Code Detection:** Utilizes Jaccard Similarity to identify duplicated code fragments with a threshold of 0.75.
+
+### Code Smell Refactoring
+
+If duplicated code is detected, the tool prompts users to refactor the code, providing options to produce a file with refactored code upon user request.
+
+## Operation Flow
+
+1. Start the program and generate the GUI.
+2. Users upload a single file through the GUI.
+3. The tool analyzes the code for code smells and prompts users if any code smells exist.
+4. If duplicated code exists, users are prompted to refactor the code. The tool produces a file with refactored code upon user request.
+5. Users can close the program through the GUI.
+
+## Notes
+
+1. The tool does not consider anonymous functions (such as Lambda functions).
+2. Duplicated code detection focuses on function levels, comparing different functions rather than code within a specific function.
