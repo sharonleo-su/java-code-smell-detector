@@ -1,6 +1,6 @@
 # Scentinel - A code smell detector and refactoring tool for TypeScript files
 
-This project is an Angular application that serves as a Code Smell Detector and Refactoring Tool. It allows users to upload a single TypseScript file, analyzes the code for code smells, and offers refactoring options if duplicate code is detected.
+This project is an Angular application that serves as a Code Smell Detector and Refactoring Tool. It allows users to upload a single TypeScript file, analyzes the code for code smells, and offers refactoring options if duplicate code is detected.
 
 ## Deployment
 
